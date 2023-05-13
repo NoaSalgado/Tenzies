@@ -1,5 +1,5 @@
-function Dice() {
-  return <div className='dice'>1</div>;
+function Dice({ value }) {
+  return <div className='dice'>{value}</div>;
 }
 
 export default Dice;

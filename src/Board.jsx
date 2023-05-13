@@ -1,19 +1,10 @@
 import Dice from './Dice';
-function Board() {
+function Board({ allDice }) {
   return (
     <div className='board'>
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
-      <Dice />
+      {allDice.map(({ id, value }) => (
+        <Dice key={id} value={value} />
+      ))}
     </div>
   );
 }

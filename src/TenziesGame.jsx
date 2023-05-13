@@ -32,12 +32,18 @@ function TenziesGame() {
     );
   }
 
+  function rollDice() {
+    setAllDice((prevAlldice) =>
+      prevAlldice.map((dice) => (dice.isFreezed ? dice : generateNewDice()))
+    );
+  }
+
   return (
     <>
       <Header />
       <main>
         <Board allDice={allDice} handleDiceClick={handleDiceClick} />
-        <Button />
+        <Button rollDice={rollDice} />
       </main>
     </>
   );

@@ -4,24 +4,20 @@ import Board from './Board';
 import Button from './Button';
 
 import { v4 as uuidv4 } from 'uuid';
+import Confetti from 'react-confetti';
 
 function TenziesGame() {
   const [allDice, setAllDice] = useState(generateAllInitialDice());
   const [isTenzies, setIsTenzies] = useState(false);
-  console.log(isTenzies);
+
   useEffect(() => {
     const allDiceAreFreezed = allDice.every((dice) => dice.isFreezed);
     const allDiceHaveSameValue = allDice.every(
       (dice) => dice.value === allDice[0].value
     );
+    // Game ends when all dice have the same value and are all selected
     setIsTenzies(allDiceAreFreezed && allDiceHaveSameValue);
   }, [allDice]);
-
-  const win = () => {
-    if (isTenzies) {
-      alert('Is Tenzies!!');
-    }
-  };
 
   function generateNewDice() {
     return {
@@ -60,6 +56,7 @@ function TenziesGame() {
 
   return (
     <>
+      {isTenzies && <Confetti />}
       <Header />
       <main>
         <Board allDice={allDice} handleDiceClick={handleDiceClick} />

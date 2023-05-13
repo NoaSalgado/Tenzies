@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './Header';
 import Board from './Board';
 import Button from './Button';
@@ -7,6 +7,21 @@ import { v4 as uuidv4 } from 'uuid';
 
 function TenziesGame() {
   const [allDice, setAllDice] = useState(generateAllInitialDice());
+  const [isTenzies, setIsTenzies] = useState(false);
+  console.log(isTenzies);
+  useEffect(() => {
+    const allDiceAreFreezed = allDice.every((dice) => dice.isFreezed);
+    const allDiceHaveSameValue = allDice.every(
+      (dice) => dice.value === allDice[0].value
+    );
+    setIsTenzies(allDiceAreFreezed && allDiceHaveSameValue);
+  }, [allDice]);
+
+  const win = () => {
+    if (isTenzies) {
+      alert('Is Tenzies!!');
+    }
+  };
 
   function generateNewDice() {
     return {
@@ -38,12 +53,21 @@ function TenziesGame() {
     );
   }
 
+  function restartGame() {
+    setAllDice(generateAllInitialDice());
+    setIsTenzies(false);
+  }
+
   return (
     <>
       <Header />
       <main>
         <Board allDice={allDice} handleDiceClick={handleDiceClick} />
-        <Button rollDice={rollDice} />
+        <Button
+          rollDice={rollDice}
+          restartGame={restartGame}
+          isTenzies={isTenzies}
+        />
       </main>
     </>
   );

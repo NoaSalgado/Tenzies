@@ -24,11 +24,19 @@ function TenziesGame() {
     return allInitialDice;
   }
 
+  function handleDiceClick(id) {
+    setAllDice((prevAllDice) =>
+      prevAllDice.map((dice) =>
+        dice.id === id ? { ...dice, isFreezed: !dice.isFreezed } : dice
+      )
+    );
+  }
+
   return (
     <>
       <Header />
       <main>
-        <Board allDice={allDice} />
+        <Board allDice={allDice} handleDiceClick={handleDiceClick} />
         <Button />
       </main>
     </>

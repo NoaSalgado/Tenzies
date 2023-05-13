@@ -1,69 +1,102 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+html,
+body {
+  height: 100%;
 }
 
 body {
-  margin: 0;
-  display: flex;
+  background-color: #424761;
+  color: #2f3f63;
+  line-height: 1.5;
+  font-family: 'Roboto Mono', monospace;
+
+  display: grid;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+#root {
+  background-color: #fcfaf7;
+  border-radius: 0.8rem;
+  padding: 3rem;
+
+  width: 90%;
+  max-width: 800px;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.header {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  align-items: center;
+}
+
+.heading {
+  font-family: 'Sriracha', cursive;
+  font-size: 4rem;
+  text-transform: uppercase;
+}
+
+.game-instructions {
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.board {
+  margin-bottom: 2rem;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  row-gap: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .board {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.dice {
+  background-color: #ffffff;
+  border-radius: 0.8rem;
+  box-shadow: 0.3px 0.5px 0.9px hsla(36deg 13% 46% / 0),
+    0.8px 1px 1.9px hsla(36deg 13% 46% / 0.34),
+    1.7px 2.3px 4.3px hsla(36deg 13% 46% / 0.67);
+
+  font-size: 2rem;
+  font-weight: 700;
+  height: 6rem;
+  width: 6rem;
+
+  display: grid;
+  place-items: center;
+}
+
+.dice.freeze {
+  background-color: #1597b0;
+}
+
+.roll-btn {
+  border: none;
+  border-radius: 0.8rem;
+  background-color: #ff556d;
+  color: #fff;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  display: block;
+  margin: 0 auto;
 }

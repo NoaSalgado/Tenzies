@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from './Header';
+import GameTracker from './GameTracker';
 import Board from './Board';
 import Button from './Button';
 
@@ -9,6 +10,9 @@ import Confetti from 'react-confetti';
 function TenziesGame() {
   const [allDice, setAllDice] = useState(generateAllInitialDice());
   const [isTenzies, setIsTenzies] = useState(false);
+  const [time, setTime] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [rolls, setRolls] = useState(0);
 
   useEffect(() => {
     const allDiceAreFreezed = allDice.every((dice) => dice.isFreezed);
@@ -18,6 +22,19 @@ function TenziesGame() {
     // Game ends when all dice have the same value and are all selected
     setIsTenzies(allDiceAreFreezed && allDiceHaveSameValue);
   }, [allDice]);
+
+  useEffect(() => {
+    if (isTenzies) {
+      setGameStarted(false);
+    }
+
+    let timer;
+    if (gameStarted) {
+      timer = setInterval(() => setTime((prevTime) => prevTime + 1), 10);
+    }
+
+    return () => clearInterval(timer);
+  }, [time, gameStarted]);
 
   function generateNewDice() {
     return {
@@ -43,15 +60,23 @@ function TenziesGame() {
     );
   }
 
+  function startGame() {
+    setGameStarted(true);
+  }
+
   function rollDice() {
     setAllDice((prevAlldice) =>
       prevAlldice.map((dice) => (dice.isFreezed ? dice : generateNewDice()))
     );
+    setRolls((prevRolls) => prevRolls + 1);
   }
 
   function restartGame() {
     setAllDice(generateAllInitialDice());
     setIsTenzies(false);
+    setGameStarted(true);
+    setTime(0);
+    setRolls(0);
   }
 
   return (
@@ -59,11 +84,18 @@ function TenziesGame() {
       {isTenzies && <Confetti />}
       <Header />
       <main>
-        <Board allDice={allDice} handleDiceClick={handleDiceClick} />
+        <GameTracker time={time} rolls={rolls} />
+        <Board
+          allDice={allDice}
+          handleDiceClick={handleDiceClick}
+          gameStarted={gameStarted}
+        />
         <Button
+          startGame={startGame}
           rollDice={rollDice}
           restartGame={restartGame}
           isTenzies={isTenzies}
+          gameStarted={gameStarted}
         />
       </main>
     </>

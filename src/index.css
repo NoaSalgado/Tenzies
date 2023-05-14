@@ -45,9 +45,22 @@ body {
   text-transform: uppercase;
 }
 
-.game-instructions {
-  font-size: 1.25rem;
-  text-align: center;
+.game-tracker {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.timer,
+.rolls {
+  font-size: 1.5rem;
+  color: #424761;
+}
+
+.timer span,
+.rolls span {
+  font-weight: 700;
 }
 
 .board {
@@ -63,6 +76,10 @@ body {
   .board {
     grid-template-columns: repeat(6, 1fr);
   }
+}
+
+.board.disabled {
+  pointer-events: none;
 }
 
 .dice {

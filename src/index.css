@@ -174,3 +174,19 @@ body {
   display: block;
   margin: 0 auto;
 }
+
+.game-result {
+  color: #1597b0;
+  font-size: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.current-game,
+.best-game {
+  color: #ff556d;
+  font-size: 1.25rem;
+  margin-bottom: 1.3rem;
+  text-transform: uppercase;
+}

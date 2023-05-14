@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getFromLocalStorage, saveToLocalStorage } from './localStorage';
 import Header from './Header';
 import GameTracker from './GameTracker';
 import Board from './Board';
@@ -6,6 +7,7 @@ import Button from './Button';
 
 import { v4 as uuidv4 } from 'uuid';
 import Confetti from 'react-confetti';
+import GameResult from './GameResult';
 
 function TenziesGame() {
   const [allDice, setAllDice] = useState(generateAllInitialDice());
@@ -13,6 +15,10 @@ function TenziesGame() {
   const [time, setTime] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [rolls, setRolls] = useState(0);
+  const [bestTime, setBestTime] = useState(getFromLocalStorage('time') || null);
+  const [bestGameRolls, setBestGameRolls] = useState(
+    getFromLocalStorage('rolls') || null
+  );
 
   useEffect(() => {
     const allDiceAreFreezed = allDice.every((dice) => dice.isFreezed);
@@ -20,9 +26,16 @@ function TenziesGame() {
       (dice) => dice.value === allDice[0].value
     );
     // Game ends when all dice have the same value and are all selected
-    setIsTenzies(allDiceAreFreezed && allDiceHaveSameValue);
+    if (allDiceAreFreezed && allDiceHaveSameValue) {
+      setIsTenzies(true);
+      if ((bestTime === null && bestGameRolls === null) || time < bestTime) {
+        setBestTime(time);
+        setBestGameRolls(rolls);
+        saveToLocalStorage(time, rolls);
+      }
+    }
   }, [allDice]);
-
+  console.log(bestTime, bestGameRolls);
   useEffect(() => {
     if (isTenzies) {
       setGameStarted(false);
@@ -84,12 +97,23 @@ function TenziesGame() {
       {isTenzies && <Confetti />}
       <Header />
       <main>
-        <GameTracker time={time} rolls={rolls} />
-        <Board
-          allDice={allDice}
-          handleDiceClick={handleDiceClick}
-          gameStarted={gameStarted}
-        />
+        {isTenzies ? (
+          <GameResult
+            time={time}
+            rolls={rolls}
+            bestTime={bestTime}
+            bestGameRolls={bestGameRolls}
+          />
+        ) : (
+          <>
+            <GameTracker time={time} rolls={rolls} />
+            <Board
+              allDice={allDice}
+              handleDiceClick={handleDiceClick}
+              gameStarted={gameStarted}
+            />
+          </>
+        )}
         <Button
           startGame={startGame}
           rollDice={rollDice}
